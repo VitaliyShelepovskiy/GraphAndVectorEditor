@@ -23,6 +23,8 @@ public class StrokeDecorator extends VectorDecorator{
         gc.setStroke(clrParser.toColor(mycolor));
         gc.setLineWidth(width);
         polygon.draw(gc);
+        gc.setLineWidth(5);
+        gc.setStroke(Color.rgb(100,100,100));
     }
 
 
