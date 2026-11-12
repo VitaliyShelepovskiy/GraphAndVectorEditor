@@ -60,11 +60,11 @@
          </font></Button>
 
 
-            <Button onAction="#saveToFile" prefHeight="26.0" prefWidth="66.0" text="Save">
+            <Button onAction="#saveToFile" prefHeight="26.0" prefWidth="66.0" text="Save(.ser)">
          <font>
             <Font size="14.0" />
          </font></Button>
-            <Button onAction="#loadFromFile" prefHeight="30.0" prefWidth="75.0" text="Load">
+            <Button onAction="#loadFromFile" prefHeight="30.0" prefWidth="75.0" text="Load(.ser)">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -102,6 +102,16 @@
                <Font size="14.0" />
             </font>
          </Button>
+          <Button onAction="#TwoDecoratorsClkBtn" text="Stroke+Shadow">
+              <font>
+                  <Font size="14.0" />
+              </font>
+          </Button>
+          <Button onAction="#SaveToPNGClkBtn" text="Save to PNG">
+              <font>
+                  <Font size="14.0" />
+              </font>
+          </Button>
       </children></HBox>
     <Canvas fx:id="canvas" height="600" onMouseDragged="#canvasDragged" onMousePressed="#canvasPressed" width="1054.0" />
 

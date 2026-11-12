@@ -51,20 +51,19 @@ public class VectorController {
     @FXML
     public void initialize()
     {
-
         isPointMode=true;
         PointModeCheckBox.setSelected(isPointMode);
         polygons = new ArrayList<>();
-
         polygons.add(new Polygon());
         gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.DARKGRAY);
+        gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
         gc.setLineWidth(5);
         gc.setStroke(Color.rgb(100,100,100));
     }
     @FXML
     protected void NewShapeBtnClick()
     {
-
         polygons.add(new Polygon());
         NewShapeCheckBox.setSelected(true);
     }
@@ -109,6 +108,19 @@ public class VectorController {
         polygons.get(curPolygonIndex).draw(gc);
     }
     @FXML
+    public void TwoDecoratorsClkBtn()
+    {
+        ColorParser clrParser=new ColorParser();
+        int width = Integer.parseInt(strokeWidthFld.getText());
+        polygons.set(curPolygonIndex,
+                new StrokeDecorator(polygons.get(curPolygonIndex),
+                        clrParser.toMyColor(StrokeColorPicker.getValue()),
+                        width));
+        polygons.set(curPolygonIndex,
+                new ShadowDecorator(polygons.get(curPolygonIndex)));
+        polygons.get(curPolygonIndex).draw(gc);
+    }
+    @FXML
     protected void ShadeBtnClk()
     {
         polygons.set(curPolygonIndex,
@@ -129,7 +141,7 @@ public class VectorController {
     @FXML
     protected void DeleteBtnClk()
     {
-        polygons.remove(curPolygonIndex);
+        if (!polygons.isEmpty()) polygons.remove(curPolygonIndex);
         redraw();
     }
     @FXML
@@ -137,9 +149,14 @@ public class VectorController {
     {
         if (isPointMode)
         {
-            int polygonLength = polygons.size();
+
             int x = (int) event.getX();
             int y = (int) event.getY();
+            if (polygons.isEmpty())
+            {
+                polygons.add(new Polygon());
+            }
+            int polygonLength = polygons.size();
             polygons.get(polygonLength-1).addVertices(x,y);
             redraw();
             NewShapeCheckBox.setSelected(false);
@@ -177,24 +194,29 @@ public class VectorController {
         }
 
     }
+    @FXML
+    public void SaveToPNGClkBtn(){
+        try{
+            PNGScreen.ExportCanvasToPNG(canvas);
+        }
+        catch (IOException e)
+        {
+            if (e.getMessage().equals("No file name specified"));
+        }
+    }
 
     @FXML
     public void saveToFile()
     {
-
         drawing = new Drawing(polygons);
-
         FileChooser chooser = new FileChooser();
         chooser.setTitle("Сохранить данные");
         chooser.setInitialFileName("data.ser");
-        chooser.setInitialDirectory(new File("C:\\Users\\kniga\\OneDrive\\Desktop"));
         chooser.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Сериализованные файлы (*.ser)", "*.ser"));
-
         Window owner = StrokeColorPicker.getScene().getWindow();
         File file = chooser.showSaveDialog(owner);
         if (file == null) return;
-
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file)))
         {
@@ -227,18 +249,16 @@ public class VectorController {
         {
             throw new RuntimeException(e);
         }
-
-
         polygons = new ArrayList<>();
         for (int i = 0; i < drawing.getSize(); i++) {
             polygons.add(drawing.getPolygon(i));
         }
         redraw();
-
     }
     public void redraw()
     {
-        gc.clearRect(0,0,canvas.getWidth(),canvas.getHeight());
+        gc.setFill(Color.DARKGRAY);
+        gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
         int polygonsLength = polygons.size();
         int i;
         for (i=0;i<polygonsLength;i++)
@@ -247,12 +267,8 @@ public class VectorController {
             {
                 polygons.get(i).draw(gc);
             }
-
         }
-
     }
-
-
 }
 
 

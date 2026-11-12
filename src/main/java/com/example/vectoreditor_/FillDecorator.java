@@ -17,8 +17,7 @@ public class FillDecorator extends VectorDecorator {
 
     @Override
     public void draw(GraphicsContext gc) {
-        ColorParser clrParser=new ColorParser();;
-        gc.setFill(clrParser.toColor(color));
+
         polygon.draw(gc);
         double[] vertices_x = new double[verticeNum()];
         double[] vertices_y = new double[verticeNum()];
@@ -27,6 +26,8 @@ public class FillDecorator extends VectorDecorator {
             vertices_x[i]=(int)polygon.getVertice(i).getX();
             vertices_y[i]=(int)polygon.getVertice(i).getY();
         }
+        ColorParser clrParser=new ColorParser();;
+        gc.setFill(clrParser.toColor(color));
         gc.fillPolygon(vertices_x,vertices_y,verticeNum());
 
     }
