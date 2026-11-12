@@ -19,10 +19,21 @@ public class StrokeDecorator extends VectorDecorator{
     }
     public void draw(GraphicsContext gc)
     {
+
+        polygon.draw(gc);
         ColorParser clrParser=new ColorParser();;
         gc.setStroke(clrParser.toColor(mycolor));
         gc.setLineWidth(width);
-        polygon.draw(gc);
+        int n = polygon.verticeNum();
+        if (n < 2) return;
+        for (int j = 0; j < n; j++)
+        {
+            int x1 = (int)polygon.getVertice(j).getX();
+            int y1 = (int)polygon.getVertice(j).getY();
+            int x2 = (int)polygon.getVertice((j+1) % n).getX();
+            int y2 = (int)polygon.getVertice((j+1) % n).getY();
+            gc.strokeLine(x1, y1, x2, y2);
+        }
         gc.setLineWidth(5);
         gc.setStroke(Color.rgb(100,100,100));
     }
