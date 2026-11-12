@@ -47,7 +47,7 @@
                <Color red="0.7684210538864136" green="0.019922027364373207" blue="0.032397009432315826" />
             </value>
          </ColorPicker>
-         <Label text="Size:">
+         <Label text="Size1:">
             <font>
                <Font size="14.0" />
             </font>
@@ -63,6 +63,24 @@
                <Insets left="20.0" />
             </HBox.margin>
          </TextField>
+
+         <Label text="Size2:">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="10.0" top="4.0" />
+            </HBox.margin>
+         </Label>
+         <TextField fx:id="sizeField2" prefHeight="30.0" prefWidth="57.0" text="5">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin>
+         </TextField>
+
          <Button mnemonicParsing="false" onAction="#DeleteButtonClick" text="Delete">
             <HBox.margin>
                <Insets left="10.0" />

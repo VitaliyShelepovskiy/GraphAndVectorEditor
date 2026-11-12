@@ -27,6 +27,8 @@ public class PixelEditorController {
     GraphicsContext gc;
     @FXML
     TextField sizeField;
+    @FXML
+    TextField sizeField2;
     String figChoice;
     Factory pixelFactory;
     @FXML
@@ -54,9 +56,10 @@ public class PixelEditorController {
     {
         int x = (int) event.getX();
         int y = (int) event.getY();
-        int size = Integer.parseInt(sizeField.getText());
+        int size1 = Integer.parseInt(sizeField.getText());
+        int size2 = Integer.parseInt(sizeField2.getText());
         Color color = colorPicker.getValue();
-        Shape currPixel = pixelFactory.createShape(figChoice, x,y, size, color);
+        Shape currPixel = pixelFactory.createShape(figChoice, x,y, size1,size2, color);
 
         currPixel.draw(gc);
     }
