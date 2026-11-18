@@ -19,6 +19,8 @@ import java.util.List;
 
 public class VectorController {
     private static final long serialVersionUID = 1L;
+    private final MemoSelect memo = new MemoSelect();
+
     Drawing drawing;
     @FXML
     CheckBox PointModeCheckBox;
@@ -31,7 +33,7 @@ public class VectorController {
     @FXML
     TextField strokeWidthFld;
     @FXML
-    TextField txtField;
+    TextField testField;
     @FXML
     ColorPicker FillColorPicker;
     @FXML
@@ -54,7 +56,6 @@ public class VectorController {
         isPointMode=true;
         PointModeCheckBox.setSelected(isPointMode);
         polygons = new ArrayList<>();
-        polygons.add(new Polygon());
         gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.DARKGRAY);
         gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
@@ -90,6 +91,7 @@ public class VectorController {
     @FXML
     protected void FillBtnClick()
     {
+        saveSnapshot(curPolygonIndex);
         ColorParser clrParser=new ColorParser();
         polygons.set(curPolygonIndex,
                         new FillDecorator(polygons.get(curPolygonIndex),
@@ -99,6 +101,7 @@ public class VectorController {
     @FXML
     protected void StrokeBtnClick()
     {
+        saveSnapshot(curPolygonIndex);
         ColorParser clrParser=new ColorParser();
         int width = Integer.parseInt(strokeWidthFld.getText());
         polygons.set(curPolygonIndex,
@@ -110,6 +113,7 @@ public class VectorController {
     @FXML
     public void TwoDecoratorsClkBtn()
     {
+        saveSnapshot(curPolygonIndex);
         ColorParser clrParser=new ColorParser();
         int width = Integer.parseInt(strokeWidthFld.getText());
         polygons.set(curPolygonIndex,
@@ -123,6 +127,7 @@ public class VectorController {
     @FXML
     protected void ShadeBtnClk()
     {
+        saveSnapshot(curPolygonIndex);
         polygons.set(curPolygonIndex,
                 new ShadowDecorator(polygons.get(curPolygonIndex)));
         polygons.get(curPolygonIndex).draw(gc);
@@ -141,6 +146,7 @@ public class VectorController {
     @FXML
     protected void DeleteBtnClk()
     {
+        saveSnapshot(curPolygonIndex);
         if (!polygons.isEmpty()) polygons.remove(curPolygonIndex);
         redraw();
     }
@@ -169,11 +175,12 @@ public class VectorController {
             {
                 if (polygons.get(i).contains(px, py))
                 {
-                    txtField.setText(polygons.get(i).verticeNum() + "");
+                    testField.setText(polygons.get(i).verticeNum() + "");
                     curPolygonIndex = i;
                     break;
                 }
             }
+            if (isMoveMode) saveSnapshot(curPolygonIndex);
             mouse_start_x = event.getX();
             mouse_start_y = event.getY();
         }
@@ -268,6 +275,25 @@ public class VectorController {
                 polygons.get(i).draw(gc);
             }
         }
+    }
+    private void saveSnapshot(int index) {
+        if (index >= 0 && index < polygons.size()) {
+            memo.push(new Memento(index, polygons.get(index)));
+        }
+    }
+    @FXML
+    protected void UndoBtnClick() {
+
+        Memento m = memo.pop();
+        if (m == null) return;
+
+        int index = m.getPolygonIndex();
+        if (index >= 0 && index < polygons.size()) {
+            if (index == polygons.size()) polygons.add(m.getPolygon());
+            else polygons.set(index, m.getPolygon());
+            curPolygonIndex = index;
+        }
+        redraw();
     }
 }
 
