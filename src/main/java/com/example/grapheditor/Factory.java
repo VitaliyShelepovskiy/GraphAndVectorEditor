@@ -13,7 +13,7 @@ public class Factory
             case "square":
                 return new Square(x,y, size1, size2, color);
             case "star":
-                return new Star(x,y, size1, size2);
+                return new Star(x,y, size1, size2, color);
             default:
                 return null;
         }

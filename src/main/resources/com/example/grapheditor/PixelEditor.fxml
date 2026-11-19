@@ -31,6 +31,14 @@
                <Insets left="10.0" />
             </HBox.margin>
          </Button>
+         <Button onAction="#StarButtonClick" text="Star">
+            <font>
+               <Font size="14.0" />
+            </font>
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+         </Button>
          <Label text="Color:">
             <font>
                <Font size="14.0" />

@@ -50,6 +50,11 @@ public class PixelEditorController {
     {
         figChoice = "square";
     }
+    @FXML
+    protected void StarButtonClick()
+    {
+        figChoice = "star";
+    }
 
     @FXML
     private void canvasDragged(MouseEvent event)
