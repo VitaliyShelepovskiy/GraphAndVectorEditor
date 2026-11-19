@@ -12,6 +12,8 @@ public class Factory
                 return new Circle(x,y,size1,color);
             case "square":
                 return new Square(x,y, size1, size2, color);
+            case "star":
+                return new Star(x,y, size1, size2);
             default:
                 return null;
         }
