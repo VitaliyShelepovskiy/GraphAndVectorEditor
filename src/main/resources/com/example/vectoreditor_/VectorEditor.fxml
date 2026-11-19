@@ -122,6 +122,10 @@
         <Label text="Vertices:" />
         <TextField fx:id="testField" editable="false" prefWidth="60" />
     </HBox>
+    <HBox spacing="8" style="-fx-padding: 8;">
+        <Label text="ClassName:" />
+        <TextField fx:id="testField2" editable="false" prefWidth="60" />
+    </HBox>
 
 
 </VBox>

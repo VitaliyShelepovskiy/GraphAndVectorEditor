@@ -35,6 +35,8 @@ public class VectorController {
     @FXML
     TextField testField;
     @FXML
+    TextField testField2;
+    @FXML
     ColorPicker FillColorPicker;
     @FXML
     Canvas canvas;
@@ -93,10 +95,11 @@ public class VectorController {
     {
         saveSnapshot(curPolygonIndex);
         ColorParser clrParser=new ColorParser();
-        polygons.set(curPolygonIndex,
-                        new FillDecorator(polygons.get(curPolygonIndex),
-                                clrParser.toMyColor(FillColorPicker.getValue())));
+        Drawable curPolygon = new FillDecorator(polygons.get(curPolygonIndex),
+                clrParser.toMyColor(FillColorPicker.getValue()));
+        polygons.set(curPolygonIndex,curPolygon);
         polygons.get(curPolygonIndex).draw(gc);
+
     }
     @FXML
     protected void StrokeBtnClick()
@@ -104,10 +107,10 @@ public class VectorController {
         saveSnapshot(curPolygonIndex);
         ColorParser clrParser=new ColorParser();
         int width = Integer.parseInt(strokeWidthFld.getText());
-        polygons.set(curPolygonIndex,
-                new StrokeDecorator(polygons.get(curPolygonIndex),
-                        clrParser.toMyColor(StrokeColorPicker.getValue()),
-                        width));
+        Drawable curPolygon = new StrokeDecorator(polygons.get(curPolygonIndex),
+                clrParser.toMyColor(StrokeColorPicker.getValue()),
+                width);
+        polygons.set(curPolygonIndex,curPolygon);
         polygons.get(curPolygonIndex).draw(gc);
     }
     @FXML
@@ -116,21 +119,20 @@ public class VectorController {
         saveSnapshot(curPolygonIndex);
         ColorParser clrParser=new ColorParser();
         int width = Integer.parseInt(strokeWidthFld.getText());
-        polygons.set(curPolygonIndex,
-                new StrokeDecorator(polygons.get(curPolygonIndex),
-                        clrParser.toMyColor(StrokeColorPicker.getValue()),
-                        width));
-        polygons.set(curPolygonIndex,
-                new ShadowDecorator(polygons.get(curPolygonIndex)));
+        Drawable curPolygon = new ShadowDecorator(new StrokeDecorator(polygons.get(curPolygonIndex),
+                clrParser.toMyColor(StrokeColorPicker.getValue()),width)
+                );
+        polygons.set(curPolygonIndex,curPolygon);
         polygons.get(curPolygonIndex).draw(gc);
     }
     @FXML
     protected void ShadeBtnClk()
     {
         saveSnapshot(curPolygonIndex);
-        polygons.set(curPolygonIndex,
-                new ShadowDecorator(polygons.get(curPolygonIndex)));
+        Drawable curPolygon = new ShadowDecorator(polygons.get(curPolygonIndex));
+        polygons.set(curPolygonIndex,curPolygon);
         polygons.get(curPolygonIndex).draw(gc);
+
     }
     @FXML
     protected void MoveBtnClk()
@@ -176,6 +178,7 @@ public class VectorController {
                 if (polygons.get(i).contains(px, py))
                 {
                     testField.setText(polygons.get(i).verticeNum() + "");
+                    testField2.setText(polygons.get(i).getClass().getName().substring(26));
                     curPolygonIndex = i;
                     break;
                 }
@@ -283,6 +286,7 @@ public class VectorController {
     }
     @FXML
     protected void UndoBtnClick() {
+        int last = polygons.size() - 1;
 
         Memento m = memo.pop();
         if (m == null) return;
