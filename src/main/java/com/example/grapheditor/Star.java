@@ -21,6 +21,8 @@ public class Star extends Shape{
 
         double outerR = size*0.45;
         double innerR = outerR*0.382;
+        //double outerR = size;
+        //double innerR = outerR*0.5;
         double[] xPoints = new double[rays*2];
         double[] yPoints = new double[rays*2];
         for (int i = 0; i < rays*2; i++)
