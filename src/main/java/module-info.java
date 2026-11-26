@@ -1,22 +1,12 @@
-
-module com.example.grapheditor {
-
-
-
+module com.example {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
-    requires java.desktop;
     requires javafx.swing;
-
+    requires java.desktop;
 
     opens com.example.grapheditor to javafx.fxml;
+    opens com.example.vectoreditor_ to javafx.fxml; // если главный класс здесь
     exports com.example.grapheditor;
-
-
-
-
-    opens com.example.vectoreditor_ to javafx.fxml;
     exports com.example.vectoreditor_;
-
 }
